@@ -4,6 +4,8 @@ public class AirlineAhmad {
     {
         Scanner input = new Scanner(System.in);
         boolean[] seatingChart = new boolean[10];
+        System.out.println("Enter Your Full Name");
+        String Name = input.nextLine();
         for(;;)
         {
             System.out.println("Please enter 1 for first class or 2 for economy or press 3 to EXIT");
@@ -12,14 +14,15 @@ public class AirlineAhmad {
             {
                 if (firstClass(seatingChart))
                 {
-                    if (!Booking(input, seatingChart))
+                    if (!Booking(input, seatingChart,Name))
                         System.out.printf("Please Try again%n");
                 }
                 else
                 {
+                    input.nextLine();
                     System.out.println("First class is full. Would you like to be placed in economy? (y/n)");
                     String answer = input.nextLine();
-                    if (answer.equals("y"))
+                    if (answer.equals("y")||answer.equals("Y"))
                     {
                         choice =2;
                     }
@@ -29,24 +32,35 @@ public class AirlineAhmad {
                         break;
                     }
                 }
+                if(FilledOutPlane(seatingChart))
+                {
+                    System.out.println("Sorry, the plane is full.Next Flight Leaves in 3 hours");
+                    break;
+                }
             }
             if (choice == 2)
             {
                 if (economy(seatingChart))
                 {
-                    if (Booking(input, seatingChart))
-                        break;
+                    if (!Booking(input, seatingChart,Name))
+                        System.out.printf("Please Try again%n");
                 }
                 else
                 {
+                    input.nextLine();
                     System.out.println("Economy is full. Would you like to be placed in first class? (y/n)");
                     String answer = input.nextLine();
-                    if (answer.equals("y"))
+                    if (answer.equals("y")||answer.equals("Y"))
                        choice=1;
                     else
                     {
                         System.out.println("Sorry, the plane is full, The Next Flight Leaves in 3 hours");
                     }
+                }
+                if(FilledOutPlane(seatingChart))
+                {
+                    System.out.println("Sorry, the plane is full.Next Flight Leaves in 3 hours");
+                    break;
                 }
             }
             if(choice==3)
@@ -57,15 +71,16 @@ public class AirlineAhmad {
         }
     }
 
-    private static boolean Booking(Scanner input, boolean[] seatingChart) {
+    private static boolean Booking(Scanner input, boolean[] seatingChart,String Name){
         System.out.printf("Enter Which Seat would you like to Book?%n");
         int seat = input.nextInt();
+        seat--;
         if(seatingChart[seat]){
             System.out.printf("Seat is already Booked%n");
         }
         else{
             seatingChart[seat]=true;
-            System.out.printf("Seat Booked%n");
+            System.out.printf("Seat Booked Successfully for %s%n",Name);
             return true;
         }
         return false;
@@ -79,7 +94,7 @@ public class AirlineAhmad {
                 countFilledSeats++;
             }
             else{
-                System.out.printf("Empty Seat Available at %d",i);
+                System.out.printf("Empty Seat Available at %d%n",i+1);
             }
         }
         if(countFilledSeats==seatingChart.length-5)
@@ -95,12 +110,20 @@ public class AirlineAhmad {
                 countFilledSeats++;
             }
             else{
-                System.out.printf("Empty Seat Available at %d%n",i);
+                System.out.printf("Empty Seat Available at %d%n",i+1);
             }
         }
         if(countFilledSeats==5)
             return false;
         else
             return true;
+    }
+    public static boolean FilledOutPlane(boolean[] seatingChart){
+        for(int i=0;i<seatingChart.length;i++){
+            if(!seatingChart[i]){
+                return false;
+            }
+        }
+        return true;
     }
 }
