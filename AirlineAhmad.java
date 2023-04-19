@@ -27,6 +27,7 @@ public class AirlineAhmad {
                         else
                         {
                             System.out.println("Sorry, the plane is full.");
+                            break;
                         }
                     }
                 }
@@ -67,26 +68,34 @@ public class AirlineAhmad {
     }
     public static boolean economy(boolean[] seatingChart)
     {
-        for (int i = 5; i < 10; i++)
-        {
-            if (!seatingChart[i])
-            {
-                seatingChart[i] = true;
-                return true;
+        int countFilledSeats=0;
+        for(int i=5;i<seatingChart.length;i++){
+            if(seatingChart[i]){
+                countFilledSeats++;
+            }
+            else{
+                System.out.printf("Empty Seat Available at %d",i);
             }
         }
-        return false;
+        if(countFilledSeats==seatingChart.length-5)
+            return false;
+        else
+            return true;
     }
     public static boolean firstClass(boolean[] seatingChart)
     {
-        for (int i = 0; i < 5; i++)
-        {
-            if (!seatingChart[i])
-            {
-                seatingChart[i] = true;
-                return true;
+        int countFilledSeats=0;
+        for(int i=0;i<5;i++){
+            if(seatingChart[i]){
+                countFilledSeats++;
+            }
+            else{
+                System.out.printf("Empty Seat Available at %d",i);
             }
         }
-        return false;
+        if(countFilledSeats==5)
+            return false;
+        else
+            return true;
     }
 }
