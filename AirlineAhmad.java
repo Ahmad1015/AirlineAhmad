@@ -12,7 +12,8 @@ public class AirlineAhmad {
             {
                 if (firstClass(seatingChart))
                 {
-                    //System.out.println("You have been assigned seat number " + (seatingChart.length - 1));
+                    if (!Booking(input, seatingChart))
+                        System.out.printf("Please Try again%n");
                 }
                 else
                 {
@@ -20,15 +21,12 @@ public class AirlineAhmad {
                     String answer = input.nextLine();
                     if (answer.equals("y"))
                     {
-                        if (economy(seatingChart))
-                        {
-                            //System.out.println("You have been assigned seat number " + (seatingChart.length - 1));
-                        }
-                        else
-                        {
-                            System.out.println("Sorry, the plane is full.");
-                            break;
-                        }
+                        choice =2;
+                    }
+                    else
+                    {
+                        System.out.println("Sorry, the plane is full.Next Flight Leaves in 3 hours");
+                        break;
                     }
                 }
             }
@@ -36,36 +34,43 @@ public class AirlineAhmad {
             {
                 if (economy(seatingChart))
                 {
-                    //System.out.println("You have been assigned seat number " + (seatingChart.length - 1));
+                    if (Booking(input, seatingChart))
+                        break;
                 }
                 else
                 {
                     System.out.println("Economy is full. Would you like to be placed in first class? (y/n)");
                     String answer = input.nextLine();
                     if (answer.equals("y"))
-                    {
-                        if (firstClass(seatingChart))
-                        {
-                            //System.out.println("You have been assigned seat number " + (seatingChart.length - 1));
-                        }
-                        else
-                        {
-                            System.out.println("Sorry, the plane is full.");
-                        }
-                    }
+                       choice=1;
                     else
                     {
-                        System.out.println("Next flight leaves in 3 hours.");
+                        System.out.println("Sorry, the plane is full, The Next Flight Leaves in 3 hours");
                     }
                 }
             }
-            else
+            if(choice==3)
             {
-                System.out.println("Invalid input. Please enter 1 or 2.");
+                System.out.println("Thank you for using our service");
+                break;
             }
         }
-
     }
+
+    private static boolean Booking(Scanner input, boolean[] seatingChart) {
+        System.out.printf("Enter Which Seat would you like to Book?%n");
+        int seat = input.nextInt();
+        if(seatingChart[seat]){
+            System.out.printf("Seat is already Booked%n");
+        }
+        else{
+            seatingChart[seat]=true;
+            System.out.printf("Seat Booked%n");
+            return true;
+        }
+        return false;
+    }
+
     public static boolean economy(boolean[] seatingChart)
     {
         int countFilledSeats=0;
@@ -90,7 +95,7 @@ public class AirlineAhmad {
                 countFilledSeats++;
             }
             else{
-                System.out.printf("Empty Seat Available at %d",i);
+                System.out.printf("Empty Seat Available at %d%n",i);
             }
         }
         if(countFilledSeats==5)
